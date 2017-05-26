@@ -269,7 +269,7 @@ class Installer
                     $form->name('Components');
                     $form->fieldset(function ($fieldset) {
 
-                        $fieldset->legend('Available optional components');
+                        $fieldset->legend('Available optional modules');
                         $optional   = array_keys($this->getComponentsRepository()->getOptional());
                         $extensions = app('antares.extension')->getAvailableExtensions();
                         foreach ($extensions as $extension) {

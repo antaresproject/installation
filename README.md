@@ -15,6 +15,8 @@ Description of module is not ready yet.
 
 Antares Installer Module documentation is not ready yet.
 
+![installation](docs/img/installation_step_4.png)
+
 Full Antares documentation can be found at [antaresproject.io/docs](http://antaresproject.io/docs).
 
 
