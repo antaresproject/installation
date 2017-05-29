@@ -9,7 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/antaresproject/project.svg)](https://github.com/antaresproject/project/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/antaresproject/project/master/LICENSE)
 
-Description of module is not ready yet.
+Installer module provides 4 step's installation wizard to create complete package of Antares instance. It allows you to create your own template as enlargement or replacement of default Antares solution.
 
 ![installation](docs/img/installation_step_4.png)
 
