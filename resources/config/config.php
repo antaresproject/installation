@@ -50,13 +50,13 @@ return [
         ],
         'components' => [
             'core' => [
-                'manage-antares'      => 'Allows to manage antares global configuration',
-                'manage-users'        => 'Manage administrative users',
-                'manage-roles'        => 'Manage roles assigned to users',
-                'manage-acl'          => 'Allows to change rules assgined to role',
-                'change-app-settings' => 'Change application settings - general configuration section',
-                'show-dashboard'      => 'Allows user to view dashboard page after login',
-                'Users'               => [
+                'manage-antares'         => 'Allows to manage antares global configuration',
+                'manage-users'           => 'Manage administrative users',
+                'manage-roles'           => 'Manage roles assigned to users',
+                'manage-acl'             => 'Allows to change rules assgined to role',
+                'change-app-settings'    => 'Change application settings - general configuration section',
+                'show-dashboard'         => 'Allows user to view dashboard page after login',
+                'Users'                  => [
                     'users-list'  => 'View list of users',
                     'user-create' => 'Add new user',
                     'user-update' => 'Update user',
@@ -76,5 +76,5 @@ return [
             ],
         ],
     ],
-    'fake_users_count'           => 1,
+    'fake_users_count'           => 20,
 ];
