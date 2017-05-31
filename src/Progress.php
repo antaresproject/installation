@@ -168,6 +168,9 @@ class Progress implements ProgressContract
     public function getOutput(): string
     {
         try {
+            if (!file_exists($this->filePath)) {
+                File::put($this->filePath, '');
+            }
             $content = File::get($this->filePath);
 
             $content = preg_replace("/[\x08]+/", "\r\n", $content);
@@ -175,6 +178,7 @@ class Progress implements ProgressContract
 
             return $content;
         } catch (FileNotFoundException $e) {
+            Log::emergency($e);
             return '';
         }
     }
@@ -202,6 +206,7 @@ class Progress implements ProgressContract
      */
     public function advanceStep()
     {
+
         if ($this->installation->started()) {
             $completed = $this->getCompletedSteps();
 

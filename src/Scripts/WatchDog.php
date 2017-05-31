@@ -19,9 +19,9 @@
  * @link       http://antaresproject.io
  */
 
-
 namespace Antares\Installation\Scripts;
 
+use Illuminate\Support\Facades\Log;
 use Antares\Config\Repository;
 use Exception;
 
@@ -133,6 +133,7 @@ class WatchDog
                 return true;
             }
         } catch (Exception $ex) {
+            Log::emergency($e);
             return false;
         }
     }

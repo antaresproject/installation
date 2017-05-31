@@ -9,7 +9,8 @@ use Antares\Memory\Provider;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Events\Dispatcher;
 
-class IncrementProgress {
+class IncrementProgress
+{
 
     /**
      * @var Provider
@@ -26,7 +27,8 @@ class IncrementProgress {
      * @param Container $container
      * @param Progress $progress
      */
-    public function __construct(Container $container, Progress $progress) {
+    public function __construct(Container $container, Progress $progress)
+    {
         $this->memory   = $container->make('antares.memory')->make('primary');
         $this->progress = $progress;
     }
@@ -34,21 +36,24 @@ class IncrementProgress {
     /**
      * @param Activated $event
      */
-    public function onExtensionSuccess(Activated $event) {
+    public function onExtensionSuccess(Activated $event)
+    {
         $this->advanceProgress();
     }
 
     /**
      * @param ComposerSuccess $event
      */
-    public function onComposerSuccess(ComposerSuccess $event) {
+    public function onComposerSuccess(ComposerSuccess $event)
+    {
         $this->advanceProgress();
     }
 
-    private function advanceProgress() {
+    public function advanceProgress()
+    {
         $this->progress->advanceStep();
 
-        if( $this->progress->isFinished() ) {
+        if ($this->progress->isFinished()) {
             $this->memory->put('app.installed', true);
             $this->memory->finish();
         }
@@ -61,15 +66,14 @@ class IncrementProgress {
      */
     public function subscribe(Dispatcher $events)
     {
-        if( ! app()->make('antares.installed') ) {
+        if (!app()->make('antares.installed')) {
+
             $events->listen(
-                Activated::class,
-                static::class . '@onExtensionSuccess'
+                    Activated::class, static::class . '@onExtensionSuccess'
             );
 
             $events->listen(
-                ComposerSuccess::class,
-                static::class . '@onComposerSuccess'
+                    ComposerSuccess::class, static::class . '@onComposerSuccess'
             );
         }
     }

@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Antares\Installation\Repository;
 
 use Illuminate\Support\Arr;
 use File;
 
-class Installation {
+class Installation
+{
 
     /**
      * Installation instance name.
@@ -29,13 +30,13 @@ class Installation {
     /**
      * Installation constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->filePath = storage_path('installation-config.txt');
 
-        if( ! File::exists($this->filePath) ) {
+        if (!File::exists($this->filePath)) {
             File::put($this->filePath, serialize([]));
-        }
-        else {
+        } else {
             $this->attributes = $this->readFromFile();
         }
     }
@@ -43,7 +44,8 @@ class Installation {
     /**
      * @return bool
      */
-    public function started() : bool {
+    public function started(): bool
+    {
         return (bool) $this->getCustom('started', false);
     }
 
@@ -51,7 +53,8 @@ class Installation {
      * @param bool $state
      * @return void
      */
-    public function setStarted(bool $state) {
+    public function setStarted(bool $state)
+    {
         $this->setCustom('started', $state);
     }
 
@@ -59,14 +62,16 @@ class Installation {
      * @param int $steps
      * @return void
      */
-    public function setSteps(int $steps) {
+    public function setSteps(int $steps)
+    {
         $this->setCustom('steps', $steps);
     }
 
     /**
      * @return int
      */
-    public function getSteps() : int {
+    public function getSteps(): int
+    {
         return (int) $this->getCustom('steps', 0);
     }
 
@@ -74,21 +79,24 @@ class Installation {
      * @param int $steps
      * @return void
      */
-    public function setCompletedSteps(int $steps) {
+    public function setCompletedSteps(int $steps)
+    {
         $this->setCustom('completed_steps', $steps);
     }
 
     /**
      * @return int
      */
-    public function getCompletedSteps() : int {
+    public function getCompletedSteps(): int
+    {
         return (int) $this->getCustom('completed_steps', 0);
     }
 
     /**
      * @return void
      */
-    public function forgetStepsInfo() {
+    public function forgetStepsInfo()
+    {
         $this->forgetCustom('steps');
         $this->forgetCustom('completed_steps');
     }
@@ -96,14 +104,16 @@ class Installation {
     /**
      * @return bool
      */
-    public function finished() : bool {
+    public function finished(): bool
+    {
         return $this->started() && $this->getCompletedSteps() >= $this->getSteps();
     }
 
     /**
      * @return int|null
      */
-    public function getPid() {
+    public function getPid()
+    {
         return $this->getCustom('pid');
     }
 
@@ -111,11 +121,11 @@ class Installation {
      * @param int|null $pid
      * @return void
      */
-    public function setPid(int $pid = null) {
-        if($pid === null) {
+    public function setPid(int $pid = null)
+    {
+        if ($pid === null) {
             $this->forgetCustom('pid');
-        }
-        else {
+        } else {
             $this->setCustom('pid', $pid);
         }
     }
@@ -123,14 +133,16 @@ class Installation {
     /**
      * @return bool
      */
-    public function progressing() : bool {
-        return $this->started() && ! $this->finished() && ! $this->failed();
+    public function progressing(): bool
+    {
+        return $this->started() && !$this->finished() && !$this->failed();
     }
 
     /**
      * @return bool
      */
-    public function failed() : bool {
+    public function failed(): bool
+    {
         return (bool) $this->getCustom('failed', false);
     }
 
@@ -138,14 +150,16 @@ class Installation {
      * @param bool $state
      * @return void
      */
-    public function setFailed(bool $state) {
+    public function setFailed(bool $state)
+    {
         $this->setCustom('failed', $state);
     }
 
     /**
      * @return string
      */
-    public function getFailedMessage() : string {
+    public function getFailedMessage(): string
+    {
         return (string) $this->getCustom('failed_message', '');
     }
 
@@ -153,14 +167,16 @@ class Installation {
      * @param string $message
      * @return void
      */
-    public function setFailedMessage(string $message) {
+    public function setFailedMessage(string $message)
+    {
         $this->setCustom('failed_message', $message);
     }
 
     /**
      * @return string
      */
-    public function getSuccessMessage() : string {
+    public function getSuccessMessage(): string
+    {
         return (string) $this->getCustom('success_message', '');
     }
 
@@ -168,7 +184,8 @@ class Installation {
      * @param string $message
      * @return void
      */
-    public function setSuccessMessage(string $message) {
+    public function setSuccessMessage(string $message)
+    {
         $this->setCustom('success_message', $message);
     }
 
@@ -178,7 +195,8 @@ class Installation {
      * @param string $key
      * @param $data
      */
-    public function setCustom(string $key, $data) {
+    public function setCustom(string $key, $data)
+    {
         Arr::set($this->attributes, $this->getKey($key), $data);
     }
 
@@ -187,7 +205,8 @@ class Installation {
      * @param null $default
      * @return mixed
      */
-    public function getCustom(string $key, $default = null) {
+    public function getCustom(string $key, $default = null)
+    {
         return Arr::get($this->attributes, $this->getKey($key), $default);
     }
 
@@ -196,7 +215,8 @@ class Installation {
      *
      * @param string $key
      */
-    public function forgetCustom(string $key) {
+    public function forgetCustom(string $key)
+    {
         Arr::forget($this->attributes, $this->getKey($key));
     }
 
@@ -205,7 +225,8 @@ class Installation {
      *
      * @return void
      */
-    public function forget() {
+    public function forget()
+    {
         Arr::forget($this->attributes, $this->name);
     }
 
@@ -214,7 +235,8 @@ class Installation {
      *
      * @return array
      */
-    public function all() {
+    public function all()
+    {
         return Arr::get($this->attributes, $this->name, []);
     }
 
@@ -222,17 +244,19 @@ class Installation {
      * @param string $key
      * @return string
      */
-    private function getKey(string $key) : string {
+    private function getKey(string $key): string
+    {
         return $this->name . '.' . $key;
     }
 
     /**
      * @return array
      */
-    private function readFromFile() : array {
+    private function readFromFile(): array
+    {
         $data = File::get($this->filePath, true);
 
-        if($data) {
+        if ($data) {
             $data = unserialize($data, ['allowed_classes' => false]);
 
             if ($data !== false && $data !== null && is_array($data)) {
@@ -243,7 +267,8 @@ class Installation {
         return [];
     }
 
-    public function save() {
+    public function save()
+    {
         \Log::info('file', $this->attributes);
 
         File::put($this->filePath, serialize($this->attributes));
