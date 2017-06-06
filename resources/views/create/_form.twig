@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('password', 'password', '', {'required' : 'required','id':'inputPassword','data-minlength':4,'pattern':"^(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z].*[a-z].*[a-z].*[a-z]).{7}$"})|raw }}
+                            {{ app('form').input('password', 'password', '', {'required' : 'required','id':'inputPassword','data-minlength':4,'pattern':"^(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z].*[a-z].*[a-z].*[a-z]).{7,}$"})|raw }}
                         </div>    
                         <div class="help-block with-errors"></div>
                     </div>
