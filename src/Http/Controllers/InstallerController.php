@@ -94,6 +94,7 @@ class InstallerController extends BaseController
      */
     public function create()
     {
+        app('antares.asset')->container('antares/installer')->add('validator_min', 'public/packages/core/js/validator.min.js');
         set_meta('title', 'Create Administrator');
         return $this->processor->create($this);
     }

@@ -1,5 +1,5 @@
 {% set formbuilder=app('form') %}
-{{ formbuilder.open({'url':handles('antares::install/create'), 'method':'POST','class':'form--hor'})|raw }}
+{{ formbuilder.open({'url':handles('antares::install/create'), 'method':'POST','class':'form--hor','data-toggle':'validator','role':'form'})|raw }}
 {% if token is not null %}
     {{ formbuilder.token()|raw }}
 {% endif %}    
@@ -17,13 +17,11 @@
                     <div class="col-dt-2 col-2 col-mb-2">
                         {{ app('form').label('email', trans('antares/foundation::label.users.email'),{'class':'form-block__name'})|raw }}            
                     </div>
-                    <div class="col-dt-6 col-6 col-mb-6">
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('email', 'email', '')|raw }}                            
+                            {{ app('form').input('email', 'email', '',{'required':'required','id':'inputEmail'})|raw }}                            
                         </div>    
-                        <span id="{{ control.id }}_error" class="error col-13 col-mb-11 nopadding">
-                            {{ errors.first('email', ':message')|raw }}
-                        </span>
+                        <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="form-block  form-block-desc" >
@@ -32,7 +30,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            * E-mail address which will be used to first login.
+                            E-mail address which will be used to first login.
                         </div>
                     </div>
                 </div>
@@ -40,13 +38,22 @@
                     <div class="col-dt-2 col-2 col-mb-2">
                         {{ app('form').label('password', trans('antares/foundation::label.users.password'),{'class':'form-block__name'})|raw }}
                     </div>
-                    <div class="col-dt-6 col-6 col-mb-6">
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('password', 'password', '', {'required' : true})|raw }}
+                            {{ app('form').input('password', 'password', '', {'required' : 'required','id':'inputPassword','data-minlength':4,'pattern':"^(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z].*[a-z].*[a-z].*[a-z]).{7}$"})|raw }}
                         </div>    
-                        <span id="{{ control.id }}_error" class="error col-13 col-mb-11 nopadding">
-                            {{ errors.first('password', ':message')|raw }}
-                        </span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="form-block ai-c" >
+                    <div class="col-dt-2 col-2 col-mb-2">
+                        {{ app('form').label('confirm_password', 'Confirm Password',{'class':'form-block__name'})|raw }}
+                    </div>
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
+                        <div class="input-field ">                
+                            {{ app('form').input('password', 'confirm_password', '', {'required' : 'required','data-match-error':"Password fields have different values.",'id':'inputPasswordConfirm','data-minlength':4,'data-match':'#inputPassword'})|raw }}
+                        </div>    
+                        <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="form-block  form-block-desc" >
@@ -55,7 +62,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            * Password should contain min. 8 characters 1 special and 1 uppercase and 1 numeric value
+                            Password should contain min. 7 characters and 1 numeric value.
                         </div>
                     </div>
                 </div>
@@ -63,13 +70,11 @@
                     <div class="col-dt-2 col-2 col-mb-2">
                         {{ app('form').label('firstname', trans('antares/foundation::label.users.firstname'),{'class':'form-block__name'})|raw }}            
                     </div>
-                    <div class="col-dt-6 col-6 col-mb-6">
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('text', 'firstname', 'John', {'required' : true})|raw }}                    
-                        </div>    
-                        <span id="{{ control.id }}_error" class="error col-13 col-mb-11 nopadding">
-                            {{ errors.first('firstname', ':message')|raw }}
-                        </span>
+                            {{ app('form').input('text', 'firstname', 'John', {'required' : 'required'})|raw }}                    
+                        </div>
+                        <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="form-block  form-block-desc" >
@@ -78,7 +83,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            * Firstname field is optional
+                            Firstname field is required.
                         </div>
                     </div>
                 </div>
@@ -86,13 +91,11 @@
                     <div class="col-dt-2 col-2 col-mb-2">
                         {{ app('form').label('lastname', trans('antares/foundation::label.users.lastname'),{'class':'form-block__name'})|raw }}            
                     </div>
-                    <div class="col-dt-6 col-6 col-mb-6">
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('text', 'lastname', 'Doe', {'required' : true})|raw }}                    
+                            {{ app('form').input('text', 'lastname', 'Doe', {'required' : 'required'})|raw }}                    
                         </div>    
-                        <span id="{{ control.id }}_error" class="error col-13 col-mb-11 nopadding">
-                            {{ errors.first('lastname', ':message')|raw }}
-                        </span>
+                        <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="form-block  form-block-desc" >
@@ -101,7 +104,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            * Lastname field is optional
+                            Lastname field is required.
                         </div>
                     </div>
                 </div>
@@ -114,13 +117,15 @@
                     <div class="col-dt-2 col-2 col-mb-2">
                         {{ app('form').label('site_name', trans('antares/foundation::label.name'),{'class':'form-block__name'})|raw }}                
                     </div>
-                    <div class="col-dt-6 col-6 col-mb-6">
+                    <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('text', 'site_name', siteName, {'required' : true})|raw }} 
+                            {{ app('form').input('text', 'site_name', siteName, {'required' : 'required'})|raw }} 
                         </div>    
+                        <div class="help-block with-errors"></div>
                         <span  class="error col-13 col-mb-11 nopadding">
                             {{ errors.first('site_name', ':message')|raw }}
                         </span>
+
                     </div>                        
                 </div>
                 <div class="form-block  form-block-desc" >
@@ -129,7 +134,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            * Name of application instance (eg.: Antares)
+                            Name of application instance (eg.: Antares). This field is required.
                         </div>
                     </div>
                 </div>
@@ -149,4 +154,3 @@
 </div>
 
 {{ formbuilder.close()|raw }}
-
