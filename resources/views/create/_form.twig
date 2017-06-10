@@ -40,7 +40,7 @@
                     </div>
                     <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('password', 'password', '', {'required' : 'required','id':'inputPassword','data-minlength':4,'pattern':"^(?=.*[0-9])(?=.*[a-z].*[a-z].*[a-z].*[a-z].*[a-z].*[a-z]).{7,}$"})|raw }}
+                            {{ app('form').input('password', 'password', '', {'required' : 'required','id':'inputPassword','data-minlength':5})|raw }}
                         </div>    
                         <div class="help-block with-errors"></div>
                     </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-dt-6 col-6 col-mb-6 form-group">
                         <div class="input-field ">                
-                            {{ app('form').input('password', 'confirm_password', '', {'required' : 'required','data-match-error':"Password fields have different values.",'id':'inputPasswordConfirm','data-minlength':4,'data-match':'#inputPassword'})|raw }}
+                            {{ app('form').input('password', 'confirm_password', '', {'required' : 'required','data-match-error':"Password fields have different values.",'id':'inputPasswordConfirm','data-minlength':5,'data-match':'#inputPassword'})|raw }}
                         </div>    
                         <div class="help-block with-errors"></div>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-dt-14 col-14 col-mb-14 ">
                         <div class="input-field__desc">
-                            Password should contain min. 7 characters and 1 numeric value.
+                            Password should contain min. 5 characters.
                         </div>
                     </div>
                 </div>
