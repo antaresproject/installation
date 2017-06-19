@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace Antares\Installation\Repository;
 
 use Illuminate\Support\Arr;
-use File;
+use DB;
 
 class Installation
 {
@@ -28,17 +28,16 @@ class Installation
     protected $attributes = [];
 
     /**
+     * Table name.
+     */
+    const TABLE_NAME = 'tbl_antares_installation';
+
+    /**
      * Installation constructor.
      */
     public function __construct()
     {
-        $this->filePath = storage_path('installation-config.txt');
-
-        if (!File::exists($this->filePath)) {
-            File::put($this->filePath, serialize([]));
-        } else {
-            $this->attributes = $this->readFromFile();
-        }
+        $this->attributes = $this->readFromDb();
     }
 
     /**
@@ -252,16 +251,25 @@ class Installation
     /**
      * @return array
      */
-    private function readFromFile(): array
+    private function readFromDb(): array
     {
-        $data = File::get($this->filePath, true);
+        try {
+            $record = DB::table(self::TABLE_NAME)->where('name', $this->name)->limit(1)->first();
 
-        if ($data) {
-            $data = unserialize($data, ['allowed_classes' => false]);
-
-            if ($data !== false && $data !== null && is_array($data)) {
-                return $data;
+            if($record === null) {
+                return [];
             }
+
+            if ($record->content) {
+                $data = unserialize($record->content, ['allowed_classes' => false]);
+
+                if ($data !== false && $data !== null && is_array($data)) {
+                    return $data;
+                }
+            }
+        }
+        catch(\Exception $e) {
+
         }
 
         return [];
@@ -271,7 +279,19 @@ class Installation
     {
         \Log::info('file', $this->attributes);
 
-        File::put($this->filePath, serialize($this->attributes));
+        $count = DB::table(self::TABLE_NAME)->where('name', $this->name)->count();
+
+        if($count) {
+            DB::table(self::TABLE_NAME)->where('name', $this->name)->update([
+                'content'   => serialize($this->attributes)
+            ]);
+        }
+        else {
+            DB::table(self::TABLE_NAME)->insert([
+                'name'          => $this->name,
+                'content'       => serialize($this->attributes)
+            ]);
+        }
     }
 
 }
