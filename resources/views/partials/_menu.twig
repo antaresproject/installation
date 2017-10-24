@@ -3,9 +3,9 @@
         <a href="/" class="lmdl-js-button mdl-js-ripple-effect install-logo">
             <img src="/img/logos/logo_blueBG.png" >
         </a>        
-    </li>    
+    </li>  
     <li class="{{ active==1?'is-active':'' }} {{ active>1?'is-complete':'' }} ">
-        <a href="{{ installable or active>1?handles('antares/foundation::install'):'#' }}" class="lmdl-js-button mdl-js-ripple-effect">
+        <a href="{{ installable or active>1?handles('antares/foundation::install'):'#' }}" class="mdl-js-button mdl-js-ripple-effect">
             <span class="step-indicator"><span>1</span></span><span>{{ trans('antares/foundation::install.steps.requirement') }}</span>
         </a>
     </li>
