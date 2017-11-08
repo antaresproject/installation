@@ -13,9 +13,9 @@
                         {{ set_meta('header::class', 'main-header') }}                        
                         {% include 'antares/foundation::components.messages' %}    
                         {% block content %}       
-                            <legend class="title-legend">
+                            <h1>
                                 {{ trans('antares/foundation::install.steps.install') }} (<span id="progress">0</span>%)
-                            </legend>
+                            </h1>
                             <div id="install-progress-console" >
                                 <form style="position: relative; ">
                                     <textarea id="console" name="console" data-url="{{ handles('antares::install/progress/preview') }}">
@@ -35,5 +35,5 @@
                 </div>
             </section>                        
         </div>
-    </div>
+    </div>    
 {% endblock %}
