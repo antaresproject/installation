@@ -460,6 +460,7 @@ class Installation implements InstallationContract
             Activator::class,
         ];
 
+
         $installJob = new BulkExtensionsBackgroundJob($extensions, $operationClasses, $progress->getFilePath());
         $installJob->onQueue('install');
 
