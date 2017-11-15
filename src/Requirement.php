@@ -79,10 +79,13 @@ class Requirement implements RequirementContract
             'writableComposerLockFile' => $this->checkWritableComposerLockFile(),
             'writableBootstrapCache'   => $this->checkWritableBootstrapCache(),
             'version'                  => $this->getPhpVersion(),
-            'phpExtensions'            => $this->getRegisteredPhpExtensions(),
-            'apacheModules'            => $this->checkInstalledApacheModules()
+            'phpExtensions'            => $this->getRegisteredPhpExtensions()
         ];
 
+
+        if (!starts_with($_SERVER["SERVER_SOFTWARE"], 'nginx')) {
+            array_set($this->checklist, 'apacheModules', $this->checkInstalledApacheModules());
+        }
 
         foreach ($this->checklist as $requirement) {
             if ($requirement['explicit'] && $requirement['is'] !== $requirement['should']) {
@@ -236,6 +239,7 @@ class Requirement implements RequirementContract
      */
     public function checkInstalledApacheModules()
     {
+
         $modules  = apache_get_modules();
         $required = config('antares/installer::validation.required_apache_modules');
 
