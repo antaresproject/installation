@@ -2,7 +2,7 @@
 
 namespace Antares\Installation\Listeners;
 
-use Antares\Extension\Events\Activated;
+use Antares\Events\Compontents\ComponentActivated;
 use Antares\Extension\Events\ComposerSuccess;
 use Antares\Installation\Progress;
 use Antares\Memory\Provider;
@@ -34,9 +34,9 @@ class IncrementProgress
     }
 
     /**
-     * @param Activated $event
+     * @param ComponentActivated $event
      */
-    public function onExtensionSuccess(Activated $event)
+    public function onExtensionSuccess(ComponentActivated $event)
     {
         $this->advanceProgress();
     }
@@ -69,7 +69,7 @@ class IncrementProgress
         if (!app()->make('antares.installed')) {
 
             $events->listen(
-                    Activated::class, static::class . '@onExtensionSuccess'
+                    ComponentActivated::class, static::class . '@onExtensionSuccess'
             );
 
             $events->listen(

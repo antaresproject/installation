@@ -23,6 +23,8 @@ namespace Antares\Installation;
 
 use Antares\Brands\Model\Brands;
 use Antares\Contracts\Installation\Installation as InstallationContract;
+use Antares\Events\Installation\EntityInstalled;
+use Antares\Events\Installation\Schema;
 use Antares\Extension\Repositories\ComponentsRepository;
 use Antares\Extension\Jobs\BulkExtensionsBackgroundJob;
 use Antares\Extension\Contracts\ExtensionContract;
@@ -90,6 +92,7 @@ class Installation implements InstallationContract
     {
         $this->app->make('antares.publisher.migrate')->foundation();
         $this->app->make('events')->fire('antares.install.schema');
+        $this->app->make('events')->fire(new Schema());
         return true;
     }
 
@@ -368,6 +371,7 @@ class Installation implements InstallationContract
         ]);
 
         $this->app->make('events')->fire('antares.install: user', [$user, $input]);
+        $this->app->make('events')->fire(new EntityInstalled('user', $user, $input));
 
         $user->save();
 
@@ -413,6 +417,8 @@ class Installation implements InstallationContract
             $user->fill($fill);
 
             $this->app->make('events')->fire('antares.install: user', [$user, $fill]);
+            $this->app->make('events')->fire(new EntityInstalled('user', $user, $fill));
+
             $role = Role::query()->where('name', 'member')->firstOrFail();
             if ($user->save()) {
                 $id       = $user->id;

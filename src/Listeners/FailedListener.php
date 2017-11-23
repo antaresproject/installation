@@ -2,11 +2,11 @@
 
 namespace Antares\Installation\Listeners;
 
-use Antares\Extension\Events\ComposerFailed;
-use Antares\Extension\Events\Failed;
+use Antares\Events\Compontents\ComponentInstallationFailed;
 use Illuminate\Events\Dispatcher;
-use Antares\Extension\Contracts\ProgressContract;
 use Antares\Installation\Progress;
+use Antares\Events\Composer\Failed;
+use Antares\Extension\Contracts\ProgressContract;
 
 class FailedListener
 {
@@ -26,18 +26,18 @@ class FailedListener
     }
 
     /**
-     * @param Failed $event
+     * @param ComponentInstallationFailed $event
      */
-    public function onExtensionFailed(Failed $event)
+    public function onExtensionFailed(ComponentInstallationFailed $event)
     {
         \Illuminate\Support\Facades\Log::error($event->exception);
         $this->progress->setFailed($event->exception->getMessage());
     }
 
     /**
-     * @param ComposerFailed $event
+     * @param Failed $event
      */
-    public function onComposerFailed(ComposerFailed $event)
+    public function onComposerFailed(Failed $event)
     {
         \Illuminate\Support\Facades\Log::error($event->exception);
         $this->progress->setFailed($event->exception->getMessage());
@@ -52,11 +52,11 @@ class FailedListener
     {
         if (!app()->make('antares.installed')) {
             $events->listen(
-                    Failed::class, static::class . '@onExtensionFailed'
+                ComponentInstallationFailed::class, static::class . '@onExtensionFailed'
             );
 
             $events->listen(
-                    ComposerFailed::class, static::class . '@onComposerFailed'
+                    Failed::class, static::class . '@onComposerFailed'
             );
         }
     }
