@@ -82,8 +82,7 @@ class Requirement implements RequirementContract
             'phpExtensions'            => $this->getRegisteredPhpExtensions()
         ];
 
-
-        if (!starts_with($_SERVER["SERVER_SOFTWARE"], 'nginx')) {
+        if (function_exists('apache_get_modules')) {
             array_set($this->checklist, 'apacheModules', $this->checkInstalledApacheModules());
         }
 
