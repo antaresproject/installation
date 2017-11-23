@@ -80,6 +80,7 @@ class Installation
      */
     public function setCompletedSteps(int $steps)
     {
+
         $this->setCustom('completed_steps', $steps);
     }
 
@@ -196,7 +197,9 @@ class Installation
      */
     public function setCustom(string $key, $data)
     {
+
         Arr::set($this->attributes, $this->getKey($key), $data);
+        \Log::info('file', [$this->attributes]);
     }
 
     /**
@@ -256,7 +259,7 @@ class Installation
         try {
             $record = DB::table(self::TABLE_NAME)->where('name', $this->name)->limit(1)->first();
 
-            if($record === null) {
+            if ($record === null) {
                 return [];
             }
 
@@ -267,9 +270,8 @@ class Installation
                     return $data;
                 }
             }
-        }
-        catch(\Exception $e) {
-
+        } catch (\Exception $e) {
+            
         }
 
         return [];
@@ -281,15 +283,14 @@ class Installation
 
         $count = DB::table(self::TABLE_NAME)->where('name', $this->name)->count();
 
-        if($count) {
+        if ($count) {
             DB::table(self::TABLE_NAME)->where('name', $this->name)->update([
-                'content'   => serialize($this->attributes)
+                'content' => serialize($this->attributes)
             ]);
-        }
-        else {
+        } else {
             DB::table(self::TABLE_NAME)->insert([
-                'name'          => $this->name,
-                'content'       => serialize($this->attributes)
+                'name'    => $this->name,
+                'content' => serialize($this->attributes)
             ]);
         }
     }

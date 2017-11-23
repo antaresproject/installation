@@ -108,12 +108,10 @@ class Progress implements ProgressContract
         if ($this->pid) {
             $this->installation->setPid((int) $this->pid);
         }
+        $this->installation->setStarted(true);
 
         if (!$this->installation->progressing()) {
             File::put($this->filePath, '');
-
-            $this->installation->setStarted(true);
-
             $this->runQueue();
         }
 
@@ -208,9 +206,10 @@ class Progress implements ProgressContract
     {
 
         if ($this->installation->started()) {
-            $completed = $this->getCompletedSteps();
 
+            $completed = $this->getCompletedSteps();
             $this->installation->setCompletedSteps(++$completed);
+            error_log(print_r(['$completed' => $completed], true), 3, storage_path('dupa.log'));
             $this->installation->save();
         }
     }

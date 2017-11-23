@@ -5,60 +5,54 @@
 {% for hidden in hiddens %}
     {{ hidden|raw }}
 {% endfor %}
-<div class="col-group">
-    <div class="col-dt-16 col-mb-16">
-        {% for fieldset in fieldsets %}
-            {% if fieldset.hasLayout() %}
-                {{ fieldset.render()|raw }}
-            {% else %}    
-                <fieldset name="inputs">
-                    <legend>{{ fieldset.legend|raw }}</legend>
+
+{% for fieldset in fieldsets %}
+    {% if fieldset.hasLayout() %}
+        {{ fieldset.render()|raw }}
+    {% else %}    
+        <fieldset name="inputs" >
+            <legend>{{ fieldset.legend|raw }}</legend>
+            {% for control in fieldset.controls() %}
+                <div class="form-block">
                     <div class="col-group">
-                        {% for control in fieldset.controls() %}
-                            <div class="form-block form-box">
-                                <div class="col-dt-3 col-4 col-mb-4">
-                                    <div class="form-block ai-c">
-                                        <div class="col-dt-12 col-11 col-mb-11">
-                                            {{ Form.label(control.name, control.label,{'class':'form-block__name'})|raw }}    
-                                        </div>
-                                        <div class="col-dt-4 col-2 col-mb-2">
-                                            <div class="input-field input-field--desc">        
-                                                {{ control.getField(row, control, [])|raw }}                                                                                    
-                                            </div>
-                                            <span id="{{ control.id }}_error" class="error col-13 col-mb-11">
-                                                {{ errors.first(control.name, format)|raw }}
-                                            </span>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="col-dt-12 col-12 col-mb-12">
-                                    <div class="form-block  form-block-desc">
-                                        <div class="col-dt-16 col-16 col-mb-16">
-                                            <div class="input-field__desc">
-                                                {% if control.inlineHelp|length>1 %}
-                                                    <div class="input-field__desc">
-                                                        {{ control.inlineHelp|raw }}
-                                                    </div>
-                                                {% endif %}
-                                                {% if control.help|length>1 %}
-                                                    <div class="input-field__desc">
-                                                        {{ control.help|raw }}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>            
-                            </div>                                                        
-                        {%endfor %}
+                        <div class="col-mb-4">
+                            {{ Form.label(control.name, control.label,{'class':'form-block__name'})|raw }}    
+                        </div>
+                        <div class="col-mb-11">
+                            <div class="input-field input-field--desc">        
+                                {{ control.getField(row, control, [])|raw }}                                                                                    
+                            </div>
+                            <span id="{{ control.id }}_error" class="error col-13 col-mb-11">
+                                {{ errors.first(control.name, format)|raw }}
+                            </span>
+                        </div> 
                     </div>
-                </fieldset>
-            {% endif %}
-        {%endfor %}
-    </div>
-</div>
+                    <div class="col-group">
+                        <div class="col-mb-4">
+
+                        </div>
+                        <div class="col-mb-11">
+                            <div class="input-field__desc">
+                                {% if control.inlineHelp|length>1 %}
+                                    <div class="input-field__desc">
+                                        {{ control.inlineHelp|raw }}
+                                    </div>
+                                {% endif %}
+                                {% if control.help|length>1 %}
+                                    <div class="input-field__desc">
+                                        {{ control.help|raw }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div> 
+                    </div>
+                </div>                                          
+            {%endfor %}
+        </fieldset>
+    {% endif %}
+{%endfor %}
 {% block buttons %}
-    <div class="app-content__footer">
+    <div class="app-content__footer jc-fs">
         <div class="btn-group">
             <a href="{{ handles('antares/foundation::install/create') }}" class="btn btn--md btn--default mdl-button mdl-js-button mdl-js-ripple-effect" >
                 <i class="pl8 zmdi zmdi-long-arrow-left"></i> {{ trans('Back') }}
